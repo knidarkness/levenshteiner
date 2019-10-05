@@ -1,6 +1,6 @@
 # Levenshteiner
 
-[![Build Status](https://travis-ci.org/knidarkness/levenshteiner.svg?branch=master)](https://travis-ci.org/knidarkness/levenshteiner)
+[![Build Status](https://travis-ci.org/knidarkness/levenshteiner.svg?branch=master)](https://travis-ci.org/knidarkness/levenshteiner) ![Bundle Size](https://img.shields.io/bundlephobia/min/levenshteiner) ![Required Node](https://img.shields.io/node/v/levenshteiner) ![License](https://img.shields.io/npm/l/levenshteiner)
 
 ## TL;DR
 
