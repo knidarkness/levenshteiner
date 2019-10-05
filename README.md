@@ -13,7 +13,7 @@ This package provides three main methods:
 - `levenshteinOnArray(givenString: string, dictionary: string[]): { value: string, distance: number} | null` which finds the item in `dictionary` with the lowest distance to `givenString`
 - `levenshteinOnArrayAsync(givenString: string, dictionary: string[]): Promise<{value: string, distance: number} | null>` which also finds the closest to the `givenString` value from the `dictionary` array. However, this method utilizes `worker_threads` to parallelize calculations, so performance is significantly better with new threds capability of Node.js
 
-Two last methods will return `null` in case if `dictionary` is not an Array of strings with non-zero length;
+Two last methods will return `null` in case if `dictionary` is not an Array of non-zero length all elements of which are strings.
 
 ## License
 
