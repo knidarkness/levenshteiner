@@ -5,6 +5,9 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "files": [
     "/lib"
   ],
@@ -18,7 +21,7 @@
     "url": "https://github.com/knidarkness/levenshteiner"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && uglifyjs ./lib/index.js",
     "start": "tsc && node --experimental-worker lib/main.js",
     "prepublish": "yarn build",
     "lint": "eslint src/*",
@@ -40,7 +43,8 @@
     "prettier": "^1.18.2",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "uglify-js": "^3.6.0"
   },
   "dependencies": {}
 }
