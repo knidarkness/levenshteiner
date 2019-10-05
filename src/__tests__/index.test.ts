@@ -12,6 +12,14 @@ test('Distance between two strings with 2 insertions required must be equal to 2
   expect(levenshtein('Need t insertions to match', 'Need two insertions to match')).toBe(2);
 });
 
+test('Distance between two strings with 2 replacements required must be equal to 2.', () => {
+  expect(levenshtein('Need tss insertions to match', 'Need two insertions to match')).toBe(2);
+});
+
+test('Distance between two strings with 2 replacements required must be equal to 2.', () => {
+  expect(levenshtein('fasf', 'fair')).toBe(2);
+});
+
 
 test('Find closest string on the array with no overlaping items', () => {
   const testArray = [
@@ -34,6 +42,8 @@ test('Find closest string on the array with no overlaping items for workers vers
     'value'
   ];
   const givenString = 'valu';
+  const a = __dirname;
+  // expect(a).toBe(1);
   expect(await levenshteinOnArrayAsync(givenString, testArray)).toEqual({
     value: 'value',
     distance: 1

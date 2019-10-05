@@ -19,18 +19,18 @@ export function levenshtein(strA: string, strB: string): number {
   // this row is A[0][i]: edit distance for an empty s
   // the distance is just the number of characters to delete from t
 
-  for (let i = 0; i < strB.length; i++) {
+  for (let i = 0; i <= strB.length; i++) {
     v0[i] = i;
   }
 
-  for (let i = 0; i < strA.length - 1; i++) {
+  for (let i = 0; i <= strA.length - 1; i++) {
     // calculate v1 (current row distances) from the previous row v0
 
     // first element of v1 is A[i+1][0]
     //   edit distance is delete (i+1) chars from s to match empty t
     v1[0] = i + 1;
 
-    for (let j = 0; j < strB.length - 1; j++) {
+    for (let j = 0; j <= strB.length - 1; j++) {
       const delCost: number = v0[j + 1] + 1;
       const insertCost: number = v1[j] + 1;
       const substitutionCost: number = strA[i] === strB[j] ? v0[j] : v0[j] + 1;
@@ -38,13 +38,13 @@ export function levenshtein(strA: string, strB: string): number {
       v1[j + 1] = Math.min(delCost, insertCost, substitutionCost);
     }
 
-    // const p = Array.from(v1);
-    // v1 = v0;
-    // v0 = p;
-    [v0, v1] = [v1, v0];
+    const p = Array.from(v1);
+    v1 = v0;
+    v0 = p;
+    // [v0, v1] = [v1, v0];
   }
 
-  return v0[strB.length - 1];
+  return v0[strB.length];
 }
 
 /**
@@ -103,15 +103,21 @@ export async function levenshteinOnArrayAsync(
 
     let i, j;
 
+    const chunks = [];
     for (i = 0, j = dictionary.length; i < j; i += splitIntoChunksBy) {
       const chunk = dictionary.slice(i, i + splitIntoChunksBy);
+      chunks.push(chunk);
+    }
+
+    for (let i = 0; i < chunks.length; i++) {
       const worker = new Worker(
         readFileSync(__dirname + "/worker.js", "utf-8"),
         {
           eval: true,
           workerData: {
+            path: __dirname,
             givenString,
-            dictionary: chunk
+            dictionary: chunks[i]
           }
         }
       );
@@ -123,7 +129,9 @@ export async function levenshteinOnArrayAsync(
             if (closestMatch.distance >= msg.payload.distance) {
               closestMatch = msg.payload;
             }
-            if (completed === workersCount) resolve(closestMatch);
+            if (completed === chunks.length) {
+              resolve(closestMatch);
+            }
             break;
           default:
           // do-nothing
