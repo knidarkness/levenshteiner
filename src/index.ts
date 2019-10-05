@@ -59,6 +59,8 @@ export function levenshteinOnArray(
   givenString: string,
   dictionary: string[]
 ): { value: string; distance: number } | null {
+  if (!Array.isArray(dictionary)) return null;
+  if (dictionary.filter(e => typeof e !== 'string').length > 0) return null;
   if (dictionary.length === 0) return null;
 
   let closestMatch = {
@@ -90,8 +92,10 @@ export async function levenshteinOnArrayAsync(
     let completed = 0;
     const workers = [];
 
+    if (!Array.isArray(dictionary)) resolve(null);
+    if (dictionary.filter(e => typeof e !== 'string').length > 0) resolve(null);
     if (dictionary.length === 0) resolve(null);
-
+  
     let closestMatch = {
       value: dictionary[0],
       distance: Math.max(dictionary[0].length, givenString.length)
