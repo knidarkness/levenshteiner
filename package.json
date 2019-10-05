@@ -1,0 +1,35 @@
+{
+  "name": "levenshteiner",
+  "version": "0.0.3",
+  "description": "",
+  "main": "./lib/src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node --experimental-worker lib/main.js",
+    "prepublish": "yarn build",
+    "lint": "eslint src/*",
+    "prettify": "prettier --write src/* main.ts",
+    "test": "jest"
+  },
+  "author": "knidarkness",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/jest": "^24.0.18",
+    "@typescript-eslint/eslint-plugin": "^2.3.2",
+    "@typescript-eslint/parser": "^2.3.2",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.3.0",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "@types/node": "^12.7.11",
+    "ts-node": "^8.4.1"
+  }
+}
