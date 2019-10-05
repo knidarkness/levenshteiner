@@ -21,7 +21,7 @@
     "url": "https://github.com/knidarkness/levenshteiner"
   },
   "scripts": {
-    "build": "tsc && uglifyjs ./lib/index.js",
+    "build": "tsc",
     "start": "tsc && node --experimental-worker lib/main.js",
     "prepublish": "yarn build",
     "lint": "eslint src/*",
