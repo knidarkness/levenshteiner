@@ -1,8 +1,16 @@
 {
   "name": "levenshteiner",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
-  "main": "./lib/src/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "/lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/knidarkness/levenshteiner"
+  },
   "scripts": {
     "build": "tsc",
     "start": "tsc && node --experimental-worker lib/main.js",
@@ -29,7 +37,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@types/node": "^12.7.11",
-    "ts-node": "^8.4.1"
+    "@types/node": "^12.7.11"
   }
 }
