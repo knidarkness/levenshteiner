@@ -1,6 +1,6 @@
 {
   "name": "levenshteiner",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "Lighting fast calculation of Levenshtein distance.",
   "license": "MIT",
   "main": "./lib/index.js",
