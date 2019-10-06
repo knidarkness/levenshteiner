@@ -5,7 +5,9 @@ namespace Levenshteiner {
     typeof process !== "undefined" &&
     process.versions != null &&
     process.versions.node != null &&
-    Number.parseInt(process.version.split(".")[0]) >= 12;
+    Number.parseInt(process.version.split(".")[0].replace('v', '')) >= 12;
+
+  console.log('Will use workers threads', isNode, process.version);
 
   const workers: any = [];
   const workersCount = require("os").cpus().length;
@@ -161,6 +163,36 @@ namespace Levenshteiner {
     });
   }
 
+  async function levenshteinArrayPromises(
+    givenString: string,
+    chunks: string[][]
+  ): Promise<{
+    value: string;
+    distance: number;
+  } | null> {
+    return new Promise((resolve, reject) => {
+      const promises: Promise<{ value: string; distance: number } | null>[] = [];
+
+      chunks.forEach((chunk: string[]) => {
+        promises.push(new Promise ((resolve, reject) => {
+          const result = levenshteinOnArray(givenString, chunk);
+          resolve(result);
+        }));
+      });
+
+      Promise
+        .all(promises)
+        .then(results => {
+          console.log(results);
+          let bestMatch: { value: string; distance: number } | null = null;
+          results.forEach((result: { value: string; distance: number } | null) => {
+            if (!bestMatch || (result && bestMatch.distance > result.distance)) bestMatch = result;
+          })
+          resolve(bestMatch);
+        });
+    });
+  }
+
   /**
    * This function calculates the distance between giveString and each string in dictionary
    * array and returns the closest string from dictionary array. Unlike the levenshteinOnArray
@@ -195,16 +227,19 @@ namespace Levenshteiner {
         const chunk = dictionary.slice(i, i + chunkSize);
         chunks.push(chunk);
       }
-
+      
+      let closestMatch: {
+        value: string;
+        distance: number;
+      } | null;
+      
       if (isNode) {
-        const closestMatch: {
-          value: string;
-          distance: number;
-        } | null = await levenshteinArrayWorker(givenString, chunks);
-        resolve(closestMatch);
+        closestMatch = await levenshteinArrayWorker(givenString, chunks);
       } else {
-        resolve(null);
+        closestMatch = await levenshteinArrayPromises(givenString, chunks);
       }
+
+      resolve(closestMatch);
     });
   }
 }
