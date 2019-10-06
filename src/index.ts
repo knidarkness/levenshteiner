@@ -7,9 +7,8 @@ namespace Levenshteiner {
     process.versions.node != null &&
     Number.parseInt(process.version.split(".")[0].replace('v', '')) >= 12;
 
-  console.log('Will use workers threads', isNode, process.version);
-
-  const workers: any = [];
+  console.log(isNode);
+  const workers: any[] = [];
   const workersCount = require("os").cpus().length;
   if (isNode) {
     const { Worker } = require("worker_threads");
@@ -25,6 +24,13 @@ namespace Levenshteiner {
       );
 
       workers.push(worker);
+    }
+  }
+
+  export function killWorkers() {
+    if (isNode) {
+      workers.forEach(worker => worker.terminate());
+      console.log('killed');
     }
   }
 
@@ -289,4 +295,8 @@ export function levenshteinOnArray(
  */
 export function levenshtein(strA: string, strB: string): number {
   return Levenshteiner.levenshtein(strA, strB);
+}
+
+export function killWorkers() {
+  return Levenshteiner.killWorkers();
 }

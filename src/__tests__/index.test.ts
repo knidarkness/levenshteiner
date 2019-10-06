@@ -1,4 +1,8 @@
-import { levenshtein, levenshteinOnArray, levenshteinOnArrayAsync } from '../';
+import { levenshtein, levenshteinOnArray, levenshteinOnArrayAsync, killWorkers } from '../';
+
+afterAll(() => {
+  killWorkers();
+});
 
 test('Distance between equal strings must be equal to 0.', () => {
   expect(levenshtein('This is a test example.', 'This is a test example.')).toBe(0);
@@ -48,5 +52,5 @@ test('Find closest string on the array with no overlaping items for workers vers
     value: 'value',
     distance: 1
   });
-  // process.exit(0);
+  // killWorkers();
 });
