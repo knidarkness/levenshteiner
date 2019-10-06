@@ -7,7 +7,6 @@ namespace Levenshteiner {
     process.versions.node != null &&
     Number.parseInt(process.version.split(".")[0].replace('v', '')) >= 12;
 
-  console.log(isNode);
   const workers: any[] = [];
   const workersCount = require("os").cpus().length;
   if (isNode) {

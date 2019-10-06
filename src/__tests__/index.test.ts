@@ -52,5 +52,4 @@ test('Find closest string on the array with no overlaping items for workers vers
     value: 'value',
     distance: 1
   });
-  // killWorkers();
 });
