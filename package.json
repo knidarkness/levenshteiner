@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node --experimental-worker lib/main.js",
+    "start": "tsc && node lib/main.js",
     "prepublish": "yarn build",
     "lint": "eslint src/*",
     "prettify": "prettier --write src/* main.ts",
