@@ -6,6 +6,12 @@
 
 This is one of the fastest packages to calculate Levenshtein distance available today for the Node.js. It utilizes features of `worker_threads` module which is released with Node.js 12+. It becomes LTS version of Node on October 2019, so you should be able to use this package in production right now.
 
+## Installation
+
+Just run `npm install --save levenshteiner` or `yarn add levenshteiner` and you should be ready to go. To use the package in your app, import is as 
+
+`import 
+
 ## Usage
 
 This package provides three main methods:

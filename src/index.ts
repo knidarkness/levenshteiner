@@ -5,7 +5,7 @@ namespace Levenshteiner {
     typeof process !== "undefined" &&
     process.versions != null &&
     process.versions.node != null &&
-    Number.parseInt(process.version.split(".")[0].replace('v', '')) >= 12;
+    Number.parseInt(process.version.split(".")[0].replace("v", "")) >= 12;
 
   const workers: any[] = [];
   const workersCount = require("os").cpus().length;
@@ -29,7 +29,7 @@ namespace Levenshteiner {
   export function killWorkers() {
     if (isNode) {
       workers.forEach(worker => worker.terminate());
-      console.log('killed');
+      console.log("killed");
     }
   }
 
@@ -176,25 +176,31 @@ namespace Levenshteiner {
     distance: number;
   } | null> {
     return new Promise((resolve, reject) => {
-      const promises: Promise<{ value: string; distance: number } | null>[] = [];
+      const promises: Promise<{
+        value: string;
+        distance: number;
+      } | null>[] = [];
 
       chunks.forEach((chunk: string[]) => {
-        promises.push(new Promise ((resolve, reject) => {
-          const result = levenshteinOnArray(givenString, chunk);
-          resolve(result);
-        }));
+        promises.push(
+          new Promise((resolve, reject) => {
+            const result = levenshteinOnArray(givenString, chunk);
+            resolve(result);
+          })
+        );
       });
 
-      Promise
-        .all(promises)
-        .then(results => {
-          console.log(results);
-          let bestMatch: { value: string; distance: number } | null = null;
-          results.forEach((result: { value: string; distance: number } | null) => {
-            if (!bestMatch || (result && bestMatch.distance > result.distance)) bestMatch = result;
-          })
-          resolve(bestMatch);
-        });
+      Promise.all(promises).then(results => {
+        console.log(results);
+        let bestMatch: { value: string; distance: number } | null = null;
+        results.forEach(
+          (result: { value: string; distance: number } | null) => {
+            if (!bestMatch || (result && bestMatch.distance > result.distance))
+              bestMatch = result;
+          }
+        );
+        resolve(bestMatch);
+      });
     });
   }
 
@@ -232,12 +238,12 @@ namespace Levenshteiner {
         const chunk = dictionary.slice(i, i + chunkSize);
         chunks.push(chunk);
       }
-      
+
       let closestMatch: {
         value: string;
         distance: number;
       } | null;
-      
+
       if (isNode) {
         closestMatch = await levenshteinArrayWorker(givenString, chunks);
       } else {
@@ -299,3 +305,10 @@ export function levenshtein(strA: string, strB: string): number {
 export function killWorkers() {
   return Levenshteiner.killWorkers();
 }
+
+export default {
+  levenshtein,
+  levenshteinOnArray,
+  levenshteinOnArrayAsync,
+  killWorkers
+};
