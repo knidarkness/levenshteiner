@@ -10,7 +10,15 @@ This is one of the fastest packages to calculate Levenshtein distance available 
 
 Just run `npm install --save levenshteiner` or `yarn add levenshteiner` and you should be ready to go. To use the package in your app, import is as 
 
-`import 
+```js
+import levenshteiner form 'levenshteiner'
+```
+
+or 
+
+```js
+const levenshteiner = require('levenshteiner');
+```
 
 ## Usage
 
@@ -20,6 +28,22 @@ This package provides three main methods:
 - `levenshteinOnArrayAsync(givenString: string, dictionary: string[]): Promise<{value: string, distance: number} | null>` which also finds the closest to the `givenString` value from the `dictionary` array. However, this method utilizes `worker_threads` to parallelize calculations, so performance is significantly better with new threds capability of Node.js
 
 Two last methods will return `null` in case if `dictionary` is not an Array of non-zero length all elements of which are strings.
+
+```js
+import { levenshtein, levenshteinOnArray, levenshteinOnArrayAsync } from 'levenshteiner';
+
+const possibleValues = [
+  'Apple',
+  'Banana',
+  'Pineaple',
+  'Watermelon',
+];
+
+const inputString = 'Bnana';
+
+const distanceInputToApple = levenshtein(inputString, possibleValues[0]); // distanceInputToApple = 3
+const possibleMatch = levenshteinOnArray(inputStringm, possibleValues); // { value: 'Banana', distance: 1 }
+```
 
 ## License
 
